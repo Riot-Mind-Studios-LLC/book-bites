@@ -1,29 +1,84 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro"
+// Frontmatter: plain JavaScript comments
+// a way to add metadata to a file
+// utilized  within components to add component scripts
+// type javascript or typescript code
+// setup variables to use in a component
+// fetch data from a database
+// access component props
+// never runs in the browser
+// astro components are rendered at buildtime or on-demand on the server. Not in the browser.
+// none of the code written here will ever reach the browser
+// you can configure a component to render on-demand
+// variables written here can be accessed inside of components
+// to output variables, use {} inside of a component
+// use server side renderings (ssr) to pull user data for display in a component
+// when a request for the data comes to the server, you can fetch the currently authenticated user info
+
+// import components
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// js
+
+// server rendering simulation by randomizing whether this user value is an object or null (not logged-in)
+const getUser = () => {
+  // generate a random number between 0 and 1
+  // if that number is less than 0.5, return null
+  // otherwise return the user object
+  // randomizes what value you get back each time this runs
+  // runs once at build time
+  // this code will run everytime a user refreshes the page
+  //
+  return Math.random() < 0.5
+    ? null
+    : {
+        name: "Adrian",
+        email: "adrian@bookbites.com",
+      };
+};
+
+const user = getUser();
 ---
 
 <BaseLayout>
-<div class="content">
-		<h2>Welcome</h2>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, quas!</p>
-		<a href="/books">Take a look at my reviews</a>
-	</div>
+  {/* Stripped from the build. Use this for notes to yourself */}
+  <!-- Kept in the HTML. Anyone can see this in the page source -->
+  {/* this fills the slot in the BaseLayout file */}
+  <div class="content">
+    <!-- if a user is null, you can access the other properties -->
+    <!-- in order for it to work, you have to wrap this output in some conditional logic -->
+    <!-- to only render this user info IF there is a value for the user -->
+    <!-- checks if you have a user, if you do, user info renders, if not, noting renders -->
+    {user && (
+      <>
+        <h2>Welcome, {user.name}</h2>
+        <p>Logged in as: {user.email}</p>
+      </>
+    )}
+
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos,
+      quas!
+    </p>
+    <a href="/books">Take a look at my reviews</a>
+  </div>
 </BaseLayout>
 
 <style>
-	.content{
-		text-align: center;
-	}
-	a {
-		display: inline-block;
-		background-color: #7a49c5;
-		color: #fff;
-		padding: 6px 10px;
-		border-radius: 2px;
-		text-decoration: none;
-		margin-top: 20px;
-	}
-	a:hover {
-		background-color: #965ee9;
-	}
+  /* CSS comment */
+  .content {
+    text-align: center;
+  }
+  a {
+    display: inline-block;
+    background-color: #7a49c5;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 2px;
+    text-decoration: none;
+    margin-top: 20px;
+  }
+  a:hover {
+    background-color: #965ee9;
+  }
 </style>
