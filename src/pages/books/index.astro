@@ -4,22 +4,31 @@
 // imports
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import BookCard from "../../components/BookCard.astro";
+import { getCollection } from "astro:content";
 
 // An interface is a TypeScript feature, not something specific to Astro. It describes the shape of an object: which properties it has and what type each one is. It’s a contract that says what data is expected.
-interface Book {
-  title: string;
-  author: string;
-}
+// defines the books inside this component
+// now done in the collection
+// interface Book {
+//   title: string;
+//   author: string;
+// }
 
 // define books data
 // an array of book objects made according to the book interface
 // normally you would fetch data from an api or use astro's content collections
-const books: Book[] = [
-  { title: "The Name of The Wind", author: "Patrick Rothfuss" },
-  { title: "The Final Empire", author: "Brandon Sanderson" },
-  { title: "The Blade Itself", author: "Joe Abercrombie" },
-  { title: "The Will of the Many", author: "James Islington" },
-];
+// const books: Book[] = [
+//   { title: "The Name of The Wind", author: "Patrick Rothfuss" },
+//   { title: "The Final Empire", author: "Brandon Sanderson" },
+//   { title: "The Blade Itself", author: "Joe Abercrombie" },
+//   { title: "The Will of the Many", author: "James Islington" },
+// ];
+
+// get the collection of json data that was defined in the content.config file
+// pass in the name of the collection you want to return
+// astro will use this books collection that you defined to load the data and bring it into this component
+// this will be an array of book object entries
+const books = await getCollection("books");
 ---
 
 <BaseLayout>

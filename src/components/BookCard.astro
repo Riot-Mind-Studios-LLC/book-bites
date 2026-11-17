@@ -1,4 +1,6 @@
 ---
+import type { CollectionEntry } from "astro:content";
+
 // When you access properties in a template, you dont get intellisense to tell you which properties are on the book
 // you could pass ay prop into the associated component without errors or checks
 // to combat both of these, you can use a typescript interface to define how the props should look
@@ -6,10 +8,11 @@
 // errors will now show up on props that werent defined here
 interface Props {
   // define what props should be allowed into this component
-  book: {
-    title: string;
-    author: string;
-  };
+  // book: {
+  //   title: string;
+  //   author: string;
+  // };
+  book: CollectionEntry<"books">;
 }
 // An Astro component is a reusable building block saved as a .astro file. You write a piece of a page once, such as a card, header or button, and reuse it anywhere.
 // Runs at build time: imports, props, data
@@ -23,8 +26,13 @@ const { book } = Astro.props;
 <!-- Reads data from the book array of objects in the index.astro file -->
 <!-- here you can use the book values because they have been destructured from the array of objects -->
 <div class="book-card">
-  <p class="book-title">{book.title}</p>
-  <p class="book-author">by {book.author}</p>
+  <!-- when you use a collection entry object, all of the properties are stored in a data field -->
+  <!-- you must add ".data" to the call-->
+  <p class="book-title">
+    {book.data.title}, {book.data.rating}/10
+  </p>
+  <p class="book-author">by {book.data.author}</p>
+  <p class="book-summary">{book.data.summary}</p>
   <a href="">Read Review</a>
 </div>
 
@@ -50,5 +58,8 @@ const { book } = Astro.props;
   }
   .book-author {
     margin-top: 0;
+  }
+  .book-summary {
+    font-size: 1em;
   }
 </style>

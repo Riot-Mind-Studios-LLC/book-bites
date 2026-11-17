@@ -15,10 +15,17 @@
 // use server side renderings (ssr) to pull user data for display in a component
 // when a request for the data comes to the server, you can fetch the currently authenticated user info
 
+// Content collections help you mnage and query data for your site
+// blog posts, page conent, etc..
+// you can add this data locally via JSON or MD files, or you can fetch it from a remote source like a database or api endpoint
+// by using astros content collections, you can easily query and load data into components
+// you can also add schemas for collections which enforce type safety and add intellisense
+// A schema is a set of rules for the shape your data must have: which fields exist, what type each one is, and which are required. When data doesn’t match, you get an error.
+// In Astro, schemas come up in content collections, folders of Markdown or JSON files such as book entries. You define the schema in the content config file using Zod, a validation library built into Astro
+// when you use a json file as a data source for a content collection, each object needs an id to identify it
+
 // import components
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-// js
 
 // server rendering simulation by randomizing whether this user value is an object or null (not logged-in)
 const getUser = () => {
