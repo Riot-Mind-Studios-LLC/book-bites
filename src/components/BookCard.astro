@@ -1,0 +1,54 @@
+---
+// When you access properties in a template, you dont get intellisense to tell you which properties are on the book
+// you could pass ay prop into the associated component without errors or checks
+// to combat both of these, you can use a typescript interface to define how the props should look
+// astro will automatically pick this props interface up and check that the correct props are being passed into the components
+// errors will now show up on props that werent defined here
+interface Props {
+  // define what props should be allowed into this component
+  book: {
+    title: string;
+    author: string;
+  };
+}
+// An Astro component is a reusable building block saved as a .astro file. You write a piece of a page once, such as a card, header or button, and reuse it anywhere.
+// Runs at build time: imports, props, data
+// pull in data from the book array of objects in the index.astro file
+// pass the book variable as a property (prop) into this BookCard component
+// the .props value destructures the books data
+const { book } = Astro.props;
+---
+
+<!-- Book Card Template -->
+<!-- Reads data from the book array of objects in the index.astro file -->
+<!-- here you can use the book values because they have been destructured from the array of objects -->
+<div class="book-card">
+  <p class="book-title">{book.title}</p>
+  <p class="book-author">by {book.author}</p>
+  <a href="">Read Review</a>
+</div>
+
+<style>
+  /* these styles apply only to the book cards in this component */
+  /* h2 {
+    padding-right: 10px;
+    border-right: 8px solid #ebe5f2;
+    border-bottom: 8px solid #f9f6fc;
+    margin-bottom: 40px;
+    text-align: right;
+  } */
+  .book-card {
+    background-color: #f9f6fc;
+    padding: 16px 20px;
+    margin: 20px auto;
+    box-shadow: 8px 8px 0 #ebe5f2;
+  }
+  .book-title {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 0;
+  }
+  .book-author {
+    margin-top: 0;
+  }
+</style>

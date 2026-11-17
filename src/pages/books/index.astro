@@ -1,18 +1,19 @@
 ---
 // Frontmatter: plain JavaScript comments
-import BaseLayout from "../../layouts/BaseLayout.astro";
 
-// define books data
-// normally you would fetch data from an api or use astro's content collections
+// imports
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BookCard from "../../components/BookCard.astro";
 
 // An interface is a TypeScript feature, not something specific to Astro. It describes the shape of an object: which properties it has and what type each one is. It’s a contract that says what data is expected.
-
 interface Book {
   title: string;
   author: string;
 }
 
+// define books data
 // an array of book objects made according to the book interface
+// normally you would fetch data from an api or use astro's content collections
 const books: Book[] = [
   { title: "The Name of The Wind", author: "Patrick Rothfuss" },
   { title: "The Final Empire", author: "Brandon Sanderson" },
@@ -26,23 +27,19 @@ const books: Book[] = [
   <!-- Kept in the HTML. Anyone can see this in the page source -->
   <div class="content">
     <h2>Books</h2>
+
     <!-- map through the books array and display a div for each one (fires a function for each one) -->
     <!-- as an argument to that callback function, you get access to the individual book youre currently iterating through-->
     <!-- outputting a list of data -->
     <!-- astro doesnt need a key property because it doesnt need to keep track of the list in the browser -->
     <!-- its all rendered at build time -->
+    {books.map((book) => (
+      // BookCark component
+      // a properrty passed into the BookCard component
+      // iterates through the books in the book array of objects
+      <BookCard book={book} />
+    ))}
 
-    {books.map((book) => {
-      // return a template that gets rendered for each book in the list
-      // in astro you can have multiple root elements, unlike react
-      return (
-        <div class="book-card">
-          <p class="book-title">{book.title}</p>
-          <p class="book-author">by {book.author}</p>
-          <a href="">Read Review</a>
-        </div>
-      );
-    })}
     <!-- conditionally output a message when there are no books in the array -->
     <!-- add curly braces for a dynamic expression -->
     <!-- the right side of the expression runs only if the left side is true -->
@@ -50,27 +47,3 @@ const books: Book[] = [
   </div>
   <!-- end .content div -->
 </BaseLayout>
-
-<style>
-  h2 {
-    padding-right: 10px;
-    border-right: 8px solid #ebe5f2;
-    border-bottom: 8px solid #f9f6fc;
-    margin-bottom: 40px;
-    text-align: right;
-  }
-  .book-card {
-    background-color: #f9f6fc;
-    padding: 16px 20px;
-    margin: 20px auto;
-    box-shadow: 8px 8px 0 #ebe5f2;
-  }
-  .book-title {
-    font-size: 1.4em;
-    font-weight: bold;
-    margin: 0;
-  }
-  .book-author {
-    margin-top: 0;
-  }
-</style>
