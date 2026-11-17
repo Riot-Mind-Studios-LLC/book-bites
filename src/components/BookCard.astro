@@ -33,7 +33,9 @@ const { book } = Astro.props;
   </p>
   <p class="book-author">by {book.data.author}</p>
   <p class="book-summary">{book.data.summary}</p>
-  <a href="">Read Review</a>
+  <!-- use auto-generated id's in .md files as hrefs in the link for each book -->
+  <!-- use backticks to make this a template string to output a variable inside a template string-->
+  <a href={`/books/${book.id}`}>Read Review</a>
 </div>
 
 <style>
