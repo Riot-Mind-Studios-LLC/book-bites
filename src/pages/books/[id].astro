@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { render } from "astro:content";
+
+// Dynamic Routing
+// the name of the file dictates the route path
+//to make a page with a dynamic part of the route, use square brackets around the file name
+// the name inside of the brackets is dynamic
+// you then need to tell astro exactly what paths to generate using the component so that pages can be built for each one of them
+// you need to use getStaticPaths() to return an array of objects where each object represents a static page that we want to generate using this component
+// in each of those objects in the array, you need to tell astro 2 things:
+// 1- the parmeter value in the route path - the id in this case
+// 2- any prop you want to pass into the component when its built
+
+// build a page for each book in the books collection
+export async function getStaticPaths() {
+  const books = await getCollection("books");
+
+  // return an array of objects for each page you want to build
+  // build a page for each of the books
+  // map the books array into a new array you can return
+  return books.map((book) => {
+    return {
+      params: { id: book.id },
+      props: { book },
+    };
+  });
+}
+
+// to use the book object in this template, destructure it
+const { book } = Astro.props;
+
+// whenever you have markdown content, you can get astro to render all of the content in the .md file into a special content component called render
+const { Content } = await render(book);
+---
+
+<BaseLayout>
+  <div class="content">
+    <Content />
+  </div>
+</BaseLayout>
