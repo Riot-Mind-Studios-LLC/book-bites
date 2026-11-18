@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { render } from "astro:content";
+import Likes from "../../components/Likes";
 
 // Dynamic Routing
 // the name of the file dictates the route path
@@ -40,5 +41,10 @@ const { Content } = await render(book);
 <BaseLayout>
   <div class="content">
     <Content />
+    <!-- astro prebuilds this react component (client island) and adds it to the page by default -->
+    <!-- astro also strips out all of the javascript from this react component -->
+    <!-- tell astro to send the javascript (hydtrate) to the component by adding an attribute to the client island (react) call -->
+    <!-- only load the javascript into the browser when this component is visible on the page -->
+    <Likes client:visible />
   </div>
 </BaseLayout>
