@@ -1,0 +1,44 @@
+---
+// this component renders on the server, not at build time
+// to do this, you have to add a server adapter
+// By default, Astro renders everything at build time
+// after it renders everything, the server doesnt need to do anything else because everythings already been built into static html pages
+// the only thing left to do is server them to the browser
+// when you need the server to do some work like rendering pages on demand, you can opt-in to that by adding a server adapter
+// you need to mark a component as a component that will be on-demand
+// you need to choose an adapter that is appropriate for one of the services available to you
+// astro maintains 4 service adapters out of the box
+// 1- cloudflare
+// 2- netlify
+// 3- node
+// 4- vercel
+// in this example, netlify is used. i have no account there so this doesnt matter much right now
+
+// tell astro that you dont want it to render the page at build time and that it should render on-demand on the server when a request comes in for it
+// everytime a user requests this page, they will get a newly rendered and up-to-date version of the page
+// this is useful if your data is going to change frequently or for dynamic content such as user authentication
+export const prerender = false;
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+// product interface - typescript
+interface Product {
+  title: string;
+}
+
+// use the fetch API to get data whenever the request for this page hits the server
+// the fetch for the data gets run
+// the page gets built and sent back to the browser using that data
+const response = await fetch("https://dummyjson.com/products"); // fetch request
+const json = await response.json(); // access the properties from the json file
+const products: Product[] = json.products; // get the array of product from the json file
+---
+
+<!-- basic template that uses the BasLayout -->
+<BaseLayout>
+  <div class="content">
+    <!-- map through the products in the returned json and create a div that displays for each one -->
+    {products.map((product) => (
+      <div>{product.title}</div>
+    ))}
+  </div>
+</BaseLayout>
