@@ -14,6 +14,8 @@ import { render } from "astro:content";
 // 2- any prop you want to pass into the component when its built
 
 // build a page for each book in the books collection
+// these pages get built by astro at build time
+// so far this whoe site is a static site with some pre-rendered pages that you can then depoly
 export async function getStaticPaths() {
   const books = await getCollection("books");
 
